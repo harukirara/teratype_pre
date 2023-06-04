@@ -44,6 +44,29 @@ def get_inputdf(plist):
     
     return input_df
 
+def predict_pokemon(input_df,tera_name,flag):
+    #予測するポケモンのデータフレームを取得
+    machine_input=input_df[input_df["ポケモン名"]==tera_name]
+    #結果の確率の辞書
+    result_dict={}
+    try:
+        #それぞれのラベルの予測を保持
+        probabilities = model.predict_proba(machine_input.loc[:,machine_input.columns[3:]])
+    except ValueError:
+        flag=False
+
+    if flag:
+        #上位3件のみのラベルを保持
+        top3_indices = np.argsort(probabilities, axis=1)[:, -3:]
+        #上位３件の確率を保持
+        top3_probabilities = np.take_along_axis(probabilities, top3_indices, axis=1)
+        #数字からタイプ名に変換
+        output = le.inverse_transform(top3_indices[0])
+        for i in range(len(top3_probabilities[0])):
+            result_dict[output[i]]=str(round(top3_probabilities[0][i]*100,1))+"%"
+        result_dict=dict(reversed(result_dict.items()))
+    return result_dict,flag
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -61,11 +84,9 @@ def predict():
     tera_name=request.form.get('tera_name')
     #6匹のデータフレームを関数から取得
     input_df=get_inputdf(poke_list)
-    machine_input=input_df[input_df["ポケモン名"]==tera_name]
     #確率とラベルを保持
-    result=model.predict_proba(machine_input.loc[:,machine_input.columns[3:]])
-    return result
+    result,flag=predict_pokemon(input_df,tera_name,flag)
+    return render_template('index.html', poke_name_1=poke_list[0],poke_name_2=poke_list[1],poke_name_3=poke_list[2],poke_name_4=poke_list[3],poke_name_5=poke_list[4],poke_name_6=poke_list[5],result=result, poke_name=tera_name,flag=flag)
     
-
 if __name__ == '__main__':
     app.run(debug=True)
