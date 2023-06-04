@@ -1,6 +1,4 @@
-Flask==2.3.2
-Flask-DebugToolbar==0.13.1
-Flask-Email==1.4.4
+Flask==2.2.4
 Jinja2==3.1.2
 joblib==1.2.0
 lightgbm==3.3.5
