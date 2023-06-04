@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>テラスタイプ予測</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .result-item {
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>テラスタイプ予測</h1>
+        <p>パーティの６体の名前と予測したいポケモン名を入力すると、対象のポケモンのテラスタイプを予測します。</p>
+
+        <form id="predictionForm" form action="/predict" method="POST">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="poke1">ポケモン1:</label>
+                        <input type="text" class="form-control" id="poke1" name="poke_name_1" value="{{ poke_name_1}}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="poke2">ポケモン2:</label>
+                        <input type="text" class="form-control" id="poke2" name="poke_name_2" value="{{ poke_name_2}}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="poke3">ポケモン3:</label>
+                        <input type="text" class="form-control" id="poke3" name="poke_name_3" value="{{ poke_name_3}}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="poke4">ポケモン4:</label>
+                        <input type="text" class="form-control" id="poke4" name="poke_name_4" value="{{ poke_name_4}}">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="poke5">ポケモン5:</label>
+                        <input type="text" class="form-control" id="poke5" name="poke_name_5" value="{{ poke_name_5}}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="poke6">ポケモン6:</label>
+                        <input type="text" class="form-control" id="poke6" name="poke_name_6" value="{{ poke_name_6}}">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="extra_poke">予測したいポケモン:</label>
+                <input type="text" class="form-control" id="extra_poke" name="tera_name">
+            </div>
+            <button type="submit" class="btn btn-primary">Predict</button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">リセット</button>
+        </form>
+
+        {% if flag == False %}
+            <h2>予測したいポケモンはパーティに存在しないか、登録されていないポケモンを指定しています。</h2>
+        {% endif %}
+
+        {% if result and poke_name and flag %}
+            <div class="result-container">
+                <div class="card result-card">
+                    <div class="card-header">
+                        <h2 class="card-title">ポケモン名: {{ poke_name }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-subtitle">予測結果:</h2>
+                        <ul class="result-list">
+                            {% for type, probability in result.items() %}
+                                <li class="result-item">
+                                    {{ type }}: {{ probability }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+    
+    
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        // リセットボタンがクリックされたとき、フォームの値をリセットする
+        function resetForm() {
+            document.getElementById("poke1").value = "";
+            document.getElementById("poke2").value = "";
+            document.getElementById("poke3").value = "";
+            document.getElementById("poke4").value = "";
+            document.getElementById("poke5").value = "";
+            document.getElementById("poke6").value = "";
+            document.getElementById("extra_poke").value = "";
+        }
+    </script>
+</body>
+</html>
+
+
+           
+
+
+
+
+
+
+
