@@ -4,6 +4,7 @@ import joblib
 import pandas as pd
 import pickle
 import time
+from sklearn.tree import DecisionTreeClassifier
 
 app = Flask(__name__)
 
