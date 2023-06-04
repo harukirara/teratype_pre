@@ -53,18 +53,8 @@ def predict_pokemon(input_df,tera_name,flag):
         probabilities = model.predict_proba(machine_input.loc[:,machine_input.columns[3:]])
     except ValueError:
         flag=False
-
-    if flag:
-        #上位3件のみのラベルを保持
-        top3_indices = np.argsort(probabilities, axis=1)[:, -3:]
-        #上位３件の確率を保持
-        top3_probabilities = np.take_along_axis(probabilities, top3_indices, axis=1)
-        #数字からタイプ名に変換
-        output = le.inverse_transform(top3_indices[0])
-        for i in range(len(top3_probabilities[0])):
-            result_dict[output[i]]=str(round(top3_probabilities[0][i]*100,1))+"%"
-        result_dict=dict(reversed(result_dict.items()))
-    return result_dict,flag
+        
+    return probabilities,flag
 
 @app.route('/')
 def home():
