@@ -83,7 +83,9 @@ def predict():
     tera_name=request.form.get('tera_name')
     #6匹のデータフレームを関数から取得
     input_df=get_inputdf(poke_list)
-    return input_df.loc[0,"ポケモン名"]
+    #確率とラベルを保持
+    result,flag=predict_pokemon(input_df,tera_name,flag)
+    return result
     
 
 if __name__ == '__main__':
