@@ -43,18 +43,14 @@ def get_inputdf(plist):
     
     return input_df
 
-def predict_pokemon(input_df,tera_name,flag):
+def predict_pokemon(input_df,tera_name):
     #予測するポケモンのデータフレームを取得
     machine_input=input_df[input_df["ポケモン名"]==tera_name]
-    #結果の確率の辞書
-    result_dict={}
-    try:
-        #それぞれのラベルの予測を保持
-        probabilities = model.predict_proba(machine_input.loc[:,machine_input.columns[3:]])
-    except ValueError:
-        flag=False
+
+    #それぞれのラベルの予測を保持
+    probabilities = model.predict_proba(machine_input.loc[:,machine_input.columns[3:]])
         
-    return probabilities,flag
+    return probabilities
 
 @app.route('/')
 def home():
@@ -74,7 +70,7 @@ def predict():
     #6匹のデータフレームを関数から取得
     input_df=get_inputdf(poke_list)
     #確率とラベルを保持
-    result,flag=predict_pokemon(input_df,tera_name,flag)
+    result=predict_pokemon(input_df,tera_name)
     return result
     
 
