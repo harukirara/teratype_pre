@@ -4,7 +4,7 @@ import joblib
 import pandas as pd
 import pickle
 import time
-from sklearn.tree import DecisionTreeClassifier
+import lightgbm
 
 app = Flask(__name__)
 
