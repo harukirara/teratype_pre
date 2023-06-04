@@ -64,7 +64,7 @@ def predict_pokemon(input_df,tera_name,flag):
         output = le.inverse_transform(top3_indices[0])
         for i in range(len(top3_probabilities[0])):
             result_dict[output[i]]=str(round(top3_probabilities[0][i]*100,1))+"%"
-        result_dict=dict(reversed(result_dict.items()))
+        
     return result_dict,flag
 
 @app.route('/')
