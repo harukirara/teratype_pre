@@ -48,7 +48,7 @@ def predict_pokemon(input_df,tera_name):
     machine_input=input_df[input_df["ポケモン名"]==tera_name]
 
     #それぞれのラベルの予測を保持
-    probabilities = model.predict_proba(machine_input.loc[:,machine_input.columns[3:]])
+    probabilities = model.predict(machine_input.loc[:,machine_input.columns[3:]])
         
     return probabilities
 
