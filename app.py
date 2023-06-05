@@ -4,20 +4,16 @@ import joblib
 import pandas as pd
 import pickle
 import time
-import lightgbm as lgb
+from sklearn.tree import DecisionTreeClassifier
 
 app = Flask(__name__)
 
-# モデルのパラメータの読み込み
-with open('./data/model.pkl', mode='rb') as fp:
-    params=joblib.load('./data/model.pkl')
+# モデルの読み込み
+model = joblib.load('./data/model.pkl')
 
 #ラベルエンコーダーの読み込み
 with open('./data/label.pkl', mode='rb') as fp:
     le=pickle.load(fp)
-
-#パラメータからモデルの読み込み
-model = lgb.LGBMClassifier(**params)
 
 #データフレームの読み込み
 df=pd.read_csv("./data/all_pokemon_syuzoku&type&top30.csv",index_col=0)
