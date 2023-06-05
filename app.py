@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 # モデルのパラメータの読み込み
 with open('./data/model.pkl', mode='rb') as fp:
-    params=pickle.load(fp)
+    params=joblib.load('./data/model.pkl')
 
 #ラベルエンコーダーの読み込み
 with open('./data/label.pkl', mode='rb') as fp:
